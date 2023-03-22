@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.15;
+pragma solidity ^0.8.15;
 
 /* Testing utilities */
-import {Test} from "forge-std/Test.sol";
+import {Test} from "../lib/forge-std/src/Test.sol";
 import {AttestationStation} from "../src/AttestationStation.sol";
 
 contract AttestationStation_Initializer is Test {

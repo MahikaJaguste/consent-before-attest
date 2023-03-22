@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {AttestationStation} from "../src/AttestationStation.sol";
+import {ConsentualAttestationStation} from "../src/ConsentualAttestationStation.sol";
 
 import {Script} from "../lib/forge-std/src/Script.sol";
 
@@ -12,10 +12,10 @@ import {Script} from "../lib/forge-std/src/Script.sol";
  *
  * @dev This script is used to deploy AttestationStation with forge script
  * example start anvil with `anvil` command and then run
- * forge script contracts/script/AttestationStation.s.sol:AttestationStationScript --rpc-url http://localhost:8545 --broadcast -vvv
+ * forge script contracts/script/ConsentualAttestationStation.s.sol:ConsentualAttestationStationScript --rpc-url http://localhost:8545 --broadcast -vvv
  * @dev Scripts can be used for any scripting not just deployment
  */
-contract AttestationStationScript is Script {
+contract ConsentualAttestationStationScript is Script {
     function setUp() public {}
 
     function run() public {
@@ -26,7 +26,7 @@ contract AttestationStationScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // deploy AttestationStation
-        AttestationStation counter = new AttestationStation();
+        ConsentualAttestationStation counter = new ConsentualAttestationStation();
 
         // stop broadcasting transactions
         vm.stopBroadcast();
