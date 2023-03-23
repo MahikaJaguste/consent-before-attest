@@ -2,6 +2,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 
 import { Attestooooooor } from "./components";
+import { Inbox } from "./components/Inbox";
+import { Outbox } from "./components/outbox";
 
 export function App() {
   /**
@@ -22,6 +24,9 @@ export function App() {
           <hr />
           <Attestooooooor />
           <hr />
+          <Inbox />
+          <hr />
+          <Outbox />
         </>
       )}
     </>

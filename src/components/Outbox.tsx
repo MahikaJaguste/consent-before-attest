@@ -19,7 +19,7 @@ import {
 /**
  * An example component using the attestation station
  */
-export function Attestooooooor() {
+export function Outbox() {
   /**
    * @see https://wagmi.sh/docs/hooks/useAccount
    */
