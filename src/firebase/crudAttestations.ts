@@ -30,8 +30,8 @@ export async function AddDocument_AutoID(
 		error = "";
 
 	await addDoc(ref, {
-		creator: creator.toLowerCase(),
-		about: about.toLowerCase(),
+		creator: creator,
+		about: about,
 		key,
 		key_bytes,
 		value,
@@ -57,7 +57,7 @@ export async function AddDocument_AutoID(
 export async function GetInboxDocuments(address: string) {
 	const q = query(
 		ref,
-		where("about", "==", address.toLowerCase()),
+		where("about", "==", address),
 		where("status", "==", StatusEnum.PreSign),
 	);
 
@@ -87,13 +87,13 @@ export async function GetInboxDocuments(address: string) {
 export async function GetOutboxDocuments(address: string) {
 	const q1 = query(
 		ref,
-		where("creator", "==", address.toLowerCase()),
+		where("creator", "==", address),
 		where("status", "==", StatusEnum.PreSign),
 	);
 
 	const q2 = query(
 		ref,
-		where("creator", "==", address.toLowerCase()),
+		where("creator", "==", address),
 		where("status", "==", StatusEnum.Signed),
 	);
 
@@ -127,13 +127,13 @@ export async function GetOutboxDocuments(address: string) {
 export async function GetSentTxns(address: string) {
 	const q1 = query(
 		ref,
-		where("about", "==", address.toLowerCase()),
+		where("about", "==", address),
 		where("status", "==", StatusEnum.TransactionSent),
 	);
 
 	const q2 = query(
 		ref,
-		where("creator", "==", address.toLowerCase()),
+		where("creator", "==", address),
 		where("status", "==", StatusEnum.TransactionSent),
 	);
 
@@ -172,7 +172,7 @@ export async function GetSentTxns(address: string) {
 }
 
 export async function AddSignature(docId: string, signature: string) {
-	const docRef = doc(db, "uid", docId);
+	const docRef = doc(ref, docId);
 
 	await updateDoc(docRef, {
 		signature: signature,
@@ -182,7 +182,7 @@ export async function AddSignature(docId: string, signature: string) {
 }
 
 export async function AddTxnHash(docId: string, txnHash: string) {
-	const docRef = doc(db, "uid", docId);
+	const docRef = doc(ref, docId);
 
 	await updateDoc(docRef, {
 		txnHash: txnHash,
