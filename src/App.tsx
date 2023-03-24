@@ -2,8 +2,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 
 import { Attestooooooor } from "./components";
+import { CreateAttestation } from "./components/CreateAttestation";
 import { Inbox } from "./components/Inbox";
-import { Outbox } from "./components/outbox";
+import { Outbox } from "./components/Outbox";
 
 export function App() {
   /**
@@ -22,7 +23,8 @@ export function App() {
       {isConnected && (
         <>
           <hr />
-          <Attestooooooor />
+          <CreateAttestation />
+          {/* <Attestooooooor /> */}
           <hr />
           <Inbox />
           <hr />

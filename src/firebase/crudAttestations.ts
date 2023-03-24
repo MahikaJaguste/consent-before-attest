@@ -7,9 +7,10 @@ import {
 	doc,
 	getDoc,
 	updateDoc,
+	DocumentReference,
 } from "firebase/firestore";
 import db from "./config";
-import { StatusEnum } from "../types";
+import { IAttestation, StatusEnum } from "../types";
 
 const collectionName = "attestations";
 const ref = collection(db, collectionName);
@@ -18,13 +19,21 @@ export async function AddDocument_AutoID(
 	creator: string,
 	about: string,
 	key: string,
+	key_bytes: string,
 	value: string,
 	value_bytes: string,
-) {
+): Promise<{
+	success: boolean;
+	error?: string;
+}> {
+	let success = false,
+		error = "";
+
 	await addDoc(ref, {
 		creator: creator.toLowerCase(),
 		about: about.toLowerCase(),
 		key,
+		key_bytes,
 		value,
 		value_bytes,
 		createdAt: new Date(),
@@ -32,12 +41,17 @@ export async function AddDocument_AutoID(
 		status: StatusEnum.PreSign,
 	})
 		.then(() => {
-			console.log("Data saved successfully.");
+			success = true;
 		})
 		.catch((err) => {
-			console.log(err);
-			alert("Error: " + err);
+			success = false;
+			error = err;
 		});
+
+	return {
+		success,
+		error,
+	};
 }
 
 export async function GetInboxDocuments(address: string) {
@@ -47,17 +61,7 @@ export async function GetInboxDocuments(address: string) {
 		where("status", "==", StatusEnum.PreSign),
 	);
 
-	let result: {
-		creator: string;
-		about: string;
-		key: string;
-		value: string;
-		value_bytes: string;
-		createdAt: Date;
-		updatedAt: Date;
-		status: StatusEnum;
-		docId: string;
-	}[] = [];
+	let result: IAttestation[] = [];
 
 	const querySnapshot = await getDocs(q);
 	// console.log(querySnapshot)
@@ -67,6 +71,7 @@ export async function GetInboxDocuments(address: string) {
 			creator: data.creator,
 			about: data.about,
 			key: data.key,
+			key_bytes: data.key_bytes,
 			value: data.value,
 			value_bytes: data.value_bytes,
 			createdAt: data.createdAt,
@@ -80,33 +85,32 @@ export async function GetInboxDocuments(address: string) {
 }
 
 export async function GetOutboxDocuments(address: string) {
-	const q = query(
+	const q1 = query(
 		ref,
-		where("about", "==", address.toLowerCase()),
+		where("creator", "==", address.toLowerCase()),
+		where("status", "==", StatusEnum.PreSign),
+	);
+
+	const q2 = query(
+		ref,
+		where("creator", "==", address.toLowerCase()),
 		where("status", "==", StatusEnum.Signed),
 	);
 
-	let result: {
-		creator: string;
-		about: string;
-		key: string;
-		value: string;
-		value_bytes: string;
-		createdAt: Date;
-		updatedAt: Date;
-		status: StatusEnum;
-		signature: string;
-		docId: string;
-	}[] = [];
+	let result: IAttestation[] = [];
 
-	const querySnapshot = await getDocs(q);
-	// console.log(querySnapshot)
+	const querySnapshot1 = await getDocs(q1);
+	const querySnapshot2 = await getDocs(q2);
+
+	const querySnapshot = [...querySnapshot1.docs, ...querySnapshot2.docs];
+
 	querySnapshot.forEach((doc) => {
 		const data = doc.data();
 		result.push({
 			creator: data.creator,
 			about: data.about,
 			key: data.key,
+			key_bytes: data.key_bytes,
 			value: data.value,
 			value_bytes: data.value_bytes,
 			createdAt: data.createdAt,
@@ -133,19 +137,7 @@ export async function GetSentTxns(address: string) {
 		where("status", "==", StatusEnum.TransactionSent),
 	);
 
-	let result: {
-		creator: string;
-		about: string;
-		key: string;
-		value: string;
-		value_bytes: string;
-		createdAt: Date;
-		updatedAt: Date;
-		status: StatusEnum;
-		signature: string;
-		txnHash: string;
-		docId: string;
-	}[] = [];
+	let result: IAttestation[] = [];
 
 	const querySnapshot1 = await getDocs(q1);
 	const querySnapshot2 = await getDocs(q2);
@@ -158,6 +150,7 @@ export async function GetSentTxns(address: string) {
 			creator: data.creator,
 			about: data.about,
 			key: data.key,
+			key_bytes: data.key_bytes,
 			value: data.value,
 			value_bytes: data.value_bytes,
 			createdAt: data.createdAt,
