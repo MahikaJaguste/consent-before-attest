@@ -1,3 +1,7 @@
+# consent-before-attest
+
+Say goodbye to defamatory data on-chain and hello to consent and privacy. No one can publish data about you unless you approve it with our attestation signing protocol. Take control of your digital identity today!
+
 <div align="center">
   <br />
   <br />
@@ -9,14 +13,13 @@
 
 This is a [Optimism](https://github.com/ethereum-optimism) + [wagmi](https://wagmi.sh) + [Foundry](https://book.getfoundry.sh/) + [Rainbowkit](https://www.rainbowkit.com/) + [Vite](https://vitejs.dev/) project originally bootstrapped with [`create-wagmi`](https://github.com/wagmi-dev/wagmi/tree/main/packages/create-wagmi) built with ❤️ for hackers.
 
-
 ## Who is this for?
 
 This starter is a great choice for any of the following groups:
 
-- Hackers hacking on [Optimism](https://www.optimism.io/)
-- Hackers hacking on the [Attestation Station](https://community.optimism.io/docs/governance/attestation-station/)
-- Hackers interested in using [the most modern and robust web3 full stack development stack](https://twitter.com/gakonst/status/1630038261941796866)
+-   Hackers hacking on [Optimism](https://www.optimism.io/)
+-   Hackers hacking on the [Attestation Station](https://community.optimism.io/docs/governance/attestation-station/)
+-   Hackers interested in using [the most modern and robust web3 full stack development stack](https://twitter.com/gakonst/status/1630038261941796866)
 
 ## Getting Started
 
@@ -32,9 +35,9 @@ You will need to install [Foundry](https://book.getfoundry.sh/getting-started/in
 
 1. Run the following command:
 
-   ```sh
-   curl -L https://foundry.paradigm.xyz | bash
-   ```
+    ```sh
+    curl -L https://foundry.paradigm.xyz | bash
+    ```
 
 1. Source your environment as requested by Foundry.
 
@@ -48,33 +51,33 @@ You will need to install [Foundry](https://book.getfoundry.sh/getting-started/in
 
 1. Clone/fork the optimism-starter repo
 
-   ```sh
-   git clone https://github.com/ethereum-optimism/optimism-starter.git
-   ```
+    ```sh
+    git clone https://github.com/ethereum-optimism/optimism-starter.git
+    ```
 
 1. Install the necessary node packages:
 
-   ```sh
-   cd optimism-starter
-   npm install
-   ```
+    ```sh
+    cd optimism-starter
+    npm install
+    ```
 
 1. Start the frontend with `npm run dev`
 
-   ```sh
-   npm run dev
-   ```
+    ```sh
+    npm run dev
+    ```
 
-   If you get errors during this step, you might need to [update your Foundry to the latest version](#install-foundry).
+    If you get errors during this step, you might need to [update your Foundry to the latest version](#install-foundry).
 
 1. Open [localhost:5173](http://localhost:5173) in your browser.
 
-   Once the webpage has loaded, changes made to files inside the `src/` directory (e.g. `src/App.tsx`) will automatically update the webpage.
+    Once the webpage has loaded, changes made to files inside the `src/` directory (e.g. `src/App.tsx`) will automatically update the webpage.
 
 See below for general usage instructions or [FAQ](./FAQ.md) for answers to general questions such as:
 
-- [Where to get goerli eth]().
-- [How to deploy a public version of your app](./FAQ.md#how-do-i-deploy-this).
+-   [Where to get goerli eth]().
+-   [How to deploy a public version of your app](./FAQ.md#how-do-i-deploy-this).
 
 ## Generate ABIs & React Hooks
 
@@ -117,18 +120,18 @@ You will first need to set up your `.env` to tell Forge where to deploy your con
 
 1. Copy `.env.example` to `.env`.
 
-   ```sh
-   cp .env.example .env
-   ```
+    ```sh
+    cp .env.example .env
+    ```
 
 1. Edit your `.env` to specify the environment variables.
 
-   - `ETHERSCAN_API_KEY`: Your Etherscan API Key.
+    - `ETHERSCAN_API_KEY`: Your Etherscan API Key.
 
-   - `FORGE_RPC_URL`: The RPC URL of the network to which you deploy.
-     If you use [Alchemy](https://github.com/ethereum-optimism/optimism-tutorial/tree/main/ecosystem/alchemy), your URL will look like this: `https://opt-goerli.g.alchemy.com/v2/<Alchemy API Key>`
+    - `FORGE_RPC_URL`: The RPC URL of the network to which you deploy.
+      If you use [Alchemy](https://github.com/ethereum-optimism/optimism-tutorial/tree/main/ecosystem/alchemy), your URL will look like this: `https://opt-goerli.g.alchemy.com/v2/<Alchemy API Key>`
 
-   - `FORGE_PRIVATE_KEY`: The private key of the wallet you want to deploy from.
+    - `FORGE_PRIVATE_KEY`: The private key of the wallet you want to deploy from.
 
 ## Deploy contract
 
@@ -152,9 +155,9 @@ npm run dev:foundry
 
 This will:
 
-- Start a vite dev server,
-- Start the `@wagmi/cli` in [**watch mode**](https://wagmi.sh/cli/commands/generate#options) to listen to changes in our contracts, and instantly generate code,
-- Start an Anvil instance (Goerli Optimism Fork) on an RPC URL.
+-   Start a vite dev server,
+-   Start the `@wagmi/cli` in [**watch mode**](https://wagmi.sh/cli/commands/generate#options) to listen to changes in our contracts, and instantly generate code,
+-   Start an Anvil instance (Goerli Optimism Fork) on an RPC URL.
 
 ### Deploy our contract to Anvil
 
@@ -168,7 +171,7 @@ npm run deploy:anvil
 
 Now that your contract has been deployed to Anvil, you can start playing around with your contract straight from the web interface!
 
-Head to [localhost:5173](http://localhost:5173) in your browser, connect your wallet, and try increment a counter on the Foundry chain.   Use the generated code in `src/generated.ts` to do it and follow the [Attestooooor](https://github.com/ethereum-optimism/optimism-starter/blob/main/src/components/Attestoooooor.tsx) component as an example
+Head to [localhost:5173](http://localhost:5173) in your browser, connect your wallet, and try increment a counter on the Foundry chain. Use the generated code in `src/generated.ts` to do it and follow the [Attestooooor](https://github.com/ethereum-optimism/optimism-starter/blob/main/src/components/Attestoooooor.tsx) component as an example
 
 > Tip: If you import an Anvil private key into your browser wallet (MetaMask, Coinbase Wallet, etc) – you will have 10,000 ETH to play with 😎. The private key is found in the terminal under "Private Keys" when you start up an Anvil instance with `npm run dev:foundry`.
 
@@ -190,17 +193,17 @@ npx atst --help
 
 Looking to use burner wallets? Prefer hardhat? Prefer NEXT.js? Check out these amazing alternatives:
 
-- [create wagmi cli](https://wagmi.sh/cli/create-wagmi) - A flexible cli with many templates (this starterkit was started from vite-react-cli-foundry)
-- [scaffold-eth](https://github.com/scaffold-eth/se-2) - The new 2nd version of a popular NEXT.js based starter including hardhat, burner wallets, great documentation, and an active telegram for support
-- [Awesome wagmi](https://github.com/wagmi-dev/awesome-wagmi#templates) - Has other alternative examples
-- [Create Eth App](https://usedapp-docs.netlify.app/docs/Getting%20Started/Create%20Eth%20App) - Uses a wagmi alternative called useDapp that is used at OP Labs
+-   [create wagmi cli](https://wagmi.sh/cli/create-wagmi) - A flexible cli with many templates (this starterkit was started from vite-react-cli-foundry)
+-   [scaffold-eth](https://github.com/scaffold-eth/se-2) - The new 2nd version of a popular NEXT.js based starter including hardhat, burner wallets, great documentation, and an active telegram for support
+-   [Awesome wagmi](https://github.com/wagmi-dev/awesome-wagmi#templates) - Has other alternative examples
+-   [Create Eth App](https://usedapp-docs.netlify.app/docs/Getting%20Started/Create%20Eth%20App) - Uses a wagmi alternative called useDapp that is used at OP Labs
 
 ## Learn more
 
 To learn more about [Optimism](https://optimism.io), [Vite](https://vitejs.dev/), [Foundry](https://book.getfoundry.sh/), [Rainbow kit](https://www.rainbowkit.com/) or [wagmi](https://wagmi.sh), check out the following resources:
 
-- [Foundry Documentation](https://book.getfoundry.sh/) – learn more about the Foundry stack (Anvil, Forge, etc).
-- [wagmi Documentation](https://wagmi.sh) – learn about wagmi Hooks and API.
-- [wagmi Examples](https://wagmi.sh/examples/connect-wallet) – a suite of simple examples using wagmi.
-- [@wagmi/cli Documentation](https://wagmi.sh/cli) – learn more about the wagmi CLI.
-- [Vite Documentation](https://vitejs.dev/) – learn about Vite features and API.
+-   [Foundry Documentation](https://book.getfoundry.sh/) – learn more about the Foundry stack (Anvil, Forge, etc).
+-   [wagmi Documentation](https://wagmi.sh) – learn about wagmi Hooks and API.
+-   [wagmi Examples](https://wagmi.sh/examples/connect-wallet) – a suite of simple examples using wagmi.
+-   [@wagmi/cli Documentation](https://wagmi.sh/cli) – learn more about the wagmi CLI.
+-   [Vite Documentation](https://vitejs.dev/) – learn about Vite features and API.
