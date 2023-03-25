@@ -12,9 +12,7 @@ import { Button, IconButton, Alert } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {CircularProgress} from "@mui/material";
-
-const RPC_URL = "http://localhost:8545";
-const CONTRACT_ADDRESS = "0x09635F643e140090A9A8Dcd712eD6285858ceBef";
+import { RPC_URL, CONTRACT_ADDRESS } from "../types";
 
 export function Outbox() {
 
@@ -59,23 +57,8 @@ export function Outbox() {
 		window.location.reload();
 	}
 
-	// const getAttestationStatus = async (txHash: string) => {
-
-		// const a = await contract.attestations(doc.creator, doc.about, doc.key_bytes)
-		// console.log(a)
-		// console.log(parseString(a))
-
-		// const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
-		// const receipt = await provider.getTransactionReceipt(txHash);
-		// console.log(receipt)
-		// if(receipt?.status === 1) {
-		// 	return true;
-		// }
-		// return false;
-	// }
-
 	const outboxColumns = [
-		{ field: "about", headerName: "About", width: 500 },
+		{ field: "about", headerName: "About", width: 450 },
 		{ field: "key", headerName: "Key", width: 200 },
 		{ field: "value", headerName: "Value", width: 500 },
 		{
@@ -85,10 +68,10 @@ export function Outbox() {
 			width: 150,
 			renderCell: ({ row }: Partial<GridRowParams>) =>
 			<>
-				<Button style={{textTransform: 'none'}} variant="outlined" color="success" disabled={row.status !== StatusEnum.Signed} onClick={() => handleAttest(row)}>
+				<Button style={{textTransform: 'none'}} variant="outlined" color="success" hidden={isLoadingDocId === row.docId} disabled={row.status !== StatusEnum.Signed} onClick={() => handleAttest(row)}>
 					 Attest &nbsp; <CheckCircleIcon/>
 				</Button>
-				{isLoadingDocId === row.docId && <CircularProgress />}
+				{isLoadingDocId === row.docId && <CircularProgress size="small"/>}
 			</>,
 		},
 		{
@@ -112,9 +95,9 @@ export function Outbox() {
 
 	return (
 		<div>
-		<h2>Outbox - You made these attestations about others!</h2>
+		<h2 style={{textAlign: "center", }}>You made these attestations about others!</h2>
 
-		<div style={{ height: 250, width: '100%' }}>
+		<div style={{ height: 400, width: '100%' }}>
 			<DataGrid
 				rows={docs.map((doc) => {
 					return {

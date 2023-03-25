@@ -18,3 +18,6 @@ export interface IAttestation {
 	txnHash?: string;
 	docId: string;
 }
+
+export const RPC_URL = "http://localhost:8545";
+export const CONTRACT_ADDRESS = "0x09635F643e140090A9A8Dcd712eD6285858ceBef";

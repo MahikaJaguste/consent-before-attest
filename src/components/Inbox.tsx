@@ -7,7 +7,7 @@ import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { Button, IconButton, Alert } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
-
+import { CONTRACT_ADDRESS } from "../types";
 
 export function Inbox() {
 
@@ -30,8 +30,8 @@ export function Inbox() {
 		}
 
 		const messageHash = ethers.utils.solidityKeccak256(
-			["address", "address", "bytes32", "bytes"],
-			[doc.creator, doc.about, doc.key_bytes, doc.value_bytes]
+			["address", "address", "address", "bytes32", "bytes"],
+			[CONTRACT_ADDRESS, doc.creator, doc.about, doc.key_bytes, doc.value_bytes]
 		);
 
 		const signature = await signMessageAsync({
@@ -58,7 +58,7 @@ export function Inbox() {
 	}, [address])
 
 	const inboxColumns = [
-		{ field: "creator", headerName: "Creator", width: 500 },
+		{ field: "creator", headerName: "Creator", width: 450 },
 		{ field: "key", headerName: "Key", width: 200 },
 		{ field: "value", headerName: "Value", width: 500 },
 		{
@@ -85,9 +85,9 @@ export function Inbox() {
 
 	return (
 		<div>
-		<h2>Inbox - Approve these attestations about you!</h2>
+		<h2 style={{textAlign: "center", }}>Approve these attestations about you!</h2>
 
-		<div style={{ height: 250, width: '100%' }}>
+		<div style={{ height: 400, width: '100%' }}>
 			<DataGrid
 				rows={docs.map((doc) => {
 					return {
