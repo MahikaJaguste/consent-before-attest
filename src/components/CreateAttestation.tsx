@@ -33,23 +33,32 @@ export function CreateAttestation() {
     } else {
       alert("Error is initiating attestation: " + error);
     }
+    window.location.reload();
   }
 
   return (
     <div>
       <h2>Attestoooooor</h2>
+      Address:
+      &nbsp;
       <input
         onChange={(e) => setAboutAddress(e.target.value)}
         value={aboutAddress}
       />
-      <input
+      <br />
+      <br />
+      Attest Key: &nbsp; <input
         onChange={(e) => setAttestKey(e.target.value)}
         value={attestKey}
       />
-      <input
+      <br />
+      <br />
+      Attest Value: <input
         onChange={(e) => setAttestValue(e.target.value)}
         value={attestValue}
       />
+      <br />
+      <br />
       <button onClick={() => initiateAttestation()}>
         Attest
       </button>

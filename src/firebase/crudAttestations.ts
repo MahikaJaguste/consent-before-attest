@@ -5,9 +5,8 @@ import {
 	query,
 	where,
 	doc,
-	getDoc,
 	updateDoc,
-	DocumentReference,
+	deleteDoc,
 } from "firebase/firestore";
 import db from "./config";
 import { IAttestation, StatusEnum } from "../types";
@@ -189,4 +188,10 @@ export async function AddTxnHash(docId: string, txnHash: string) {
 		status: StatusEnum.TransactionSent,
 		updatedAt: new Date(),
 	});
+}
+
+// write a function to delete a document given its docId
+export async function DeleteDocument(docId: string) {
+	const docRef = doc(ref, docId);
+	await deleteDoc(docRef);
 }

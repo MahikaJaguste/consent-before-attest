@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { GetInboxDocuments, AddSignature } from "../firebase/crudAttestations";
+import { GetInboxDocuments, DeleteDocument, AddSignature } from "../firebase/crudAttestations";
 import { IAttestation } from "../types";
 import * as ethers from "ethers";
 
@@ -8,8 +8,8 @@ export function Inbox() {
 
 	const { address } = useAccount();
 	const [docs, setDocs] = useState<IAttestation[]>([]);
+	const [notifications, setNotifications] = useState<any[]>([]);
 
-	// useSignMessage from wagmi
 	const { signMessageAsync } = useSignMessage();
 
 	async function getDocs(address: string) {
@@ -32,8 +32,11 @@ export function Inbox() {
 			message: ethers.utils.arrayify(messageHash),
 		});
 
+    console.log(messageHash)
+
 		await AddSignature(doc.docId, signature);
 		alert("Attestation approved successfully!")
+    window.location.reload();
 
 	}
 
@@ -45,11 +48,11 @@ export function Inbox() {
 
 	return (
 		<div>
-		<h2>Attestoooooor</h2>
+		<h2>Inbox - Approve these attestations about you!</h2>
 		{docs.map((doc) => {
 			return (
 			<div key={doc.docId}>
-				<p>{doc.about} :: {doc.key} :: {doc.value} :: {doc.status}</p>
+				<p>Creator - {doc.creator} :: Key - {doc.key} :: Value - {doc.value} :: Status - {doc.status}</p>
 				<button onClick={() => {
 					handleApprove(doc)
 				}}>Approve</button>

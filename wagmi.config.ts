@@ -19,25 +19,29 @@ import { ATTESTATION_STATION_ADDRESS } from "@eth-optimism/atst";
  * @see https://wagmi.sh/cli/plugins/actions
  */
 export default defineConfig({
-  out: "src/generated.ts",
-  plugins: [
-    /**
-     * Generates react hooks from your forge contracts
-     * @see https://wagmi.sh/cli/plugins/foundry
-     */
-    foundry({
-      deployments: {
-        AttestationStation: {
-          [chains.optimism.id]: ATTESTATION_STATION_ADDRESS,
-          [chains.optimismGoerli.id]: ATTESTATION_STATION_ADDRESS,
-          [chains.foundry.id]: ATTESTATION_STATION_ADDRESS,
-        },
-      },
-    }),
-    /**
-     * Generates react hooks from your abis
-     * @see https://wagmi.sh/cli/plugins/react
-     */
-    react(),
-  ],
+	out: "src/generated.ts",
+	plugins: [
+		/**
+		 * Generates react hooks from your forge contracts
+		 * @see https://wagmi.sh/cli/plugins/foundry
+		 */
+		foundry({
+			deployments: {
+				AttestationStation: {
+					[chains.optimism.id]: ATTESTATION_STATION_ADDRESS,
+					[chains.optimismGoerli.id]: ATTESTATION_STATION_ADDRESS,
+					[chains.foundry.id]: ATTESTATION_STATION_ADDRESS,
+				},
+				ConsentualAttestationStation: {
+					[chains.foundry.id]:
+						"0x09635F643e140090A9A8Dcd712eD6285858ceBef",
+				},
+			},
+		}),
+		/**
+		 * Generates react hooks from your abis
+		 * @see https://wagmi.sh/cli/plugins/react
+		 */
+		react(),
+	],
 });

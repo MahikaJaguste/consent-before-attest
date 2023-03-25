@@ -15,7 +15,7 @@ export function App() {
 
   return (
     <>
-      <h1>OP Starter Project</h1>
+      <h1>OP - Consent Before Attest</h1>
 
       {/** @see https://www.rainbowkit.com/docs/connect-button */}
       <ConnectButton />
@@ -24,7 +24,6 @@ export function App() {
         <>
           <hr />
           <CreateAttestation />
-          {/* <Attestooooooor /> */}
           <hr />
           <Inbox />
           <hr />

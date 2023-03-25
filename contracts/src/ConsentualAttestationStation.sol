@@ -2,6 +2,8 @@
 pragma solidity ^0.8.15;
 
 import {Semver} from "../../node_modules/@eth-optimism/contracts-bedrock/contracts/universal/Semver.sol";
+// import "../lib/forge-std/src/console.sol";
+import "../../node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /**
  * @title AttestationStation
@@ -12,6 +14,9 @@ import {Semver} from "../../node_modules/@eth-optimism/contracts-bedrock/contrac
  *       https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-periphery/contracts/universal/op-nft/AttestationStation.sol
  */
 contract ConsentualAttestationStation is Semver {
+
+	using ECDSA for bytes32;
+
     /**
      * @notice Struct representing data that is being attested.
      *
@@ -52,72 +57,20 @@ contract ConsentualAttestationStation is Semver {
      */
     constructor() Semver(1, 1, 0) {}
 
-    function getMessageHash(
-        address _about,
-        bytes32 _key,
-        bytes memory _val
-    ) public view returns (bytes32) {
-        return keccak256(abi.encodePacked(msg.sender, _about, _key, _val));
-    }
-
-    function getEthSignedMessageHash(
-        bytes32 _messageHash
-    ) public pure returns (bytes32) {
-        /*
-        Signature is produced by signing a keccak256 hash with the following format:
-        "\x19Ethereum Signed Message\n" + len(msg) + msg
-        */
-        return
-            keccak256(
-                abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash)
-            );
-    }
-
-    function splitSignature(
-        bytes memory sig
-    ) public pure returns (bytes32 r, bytes32 s, uint8 v) {
-        require(sig.length == 65, "invalid signature length");
-
-        assembly {
-            /*
-            First 32 bytes stores the length of the signature
-
-            add(sig, 32) = pointer of sig + 32
-            effectively, skips first 32 bytes of signature
-
-            mload(p) loads next 32 bytes starting at the memory address p into memory
-            */
-
-            // first 32 bytes, after the length prefix
-            r := mload(add(sig, 32))
-            // second 32 bytes
-            s := mload(add(sig, 64))
-            // final byte (first byte of the next 32 bytes)
-            v := byte(0, mload(add(sig, 96)))
-        }
-
-        // implicitly return (r, s, v)
-    }
-
-    function recoverSigner(
-        bytes32 _ethSignedMessageHash,
-        bytes memory _signature
-    ) public pure returns (address) {
-        (bytes32 r, bytes32 s, uint8 v) = splitSignature(_signature);
-
-        return ecrecover(_ethSignedMessageHash, v, r, s);
-    }
-
     function verifyConsent(
         address _about,
         bytes32 _key,
         bytes memory _val,
-        bytes memory signature
+        bytes memory _signature
     ) public view returns (bool) {
-        bytes32 messageHash = getMessageHash(_about, _key, _val);
-        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
-        return recoverSigner(ethSignedMessageHash, signature) == _about;
-    }
+		bytes32 messagehash = keccak256(
+            abi.encodePacked(msg.sender, _about, _key, _val)
+        );
+        address signer = messagehash.toEthSignedMessageHash().recover(
+            _signature
+        );
+		return (signer == _about);
+	}
 
     /**
      * @notice Allows anyone to create an attestation.
@@ -143,16 +96,22 @@ contract ConsentualAttestationStation is Semver {
      *
      * @param _attestations An array of attestation data.
      */
-    function attest(AttestationData[] calldata _attestations) external {
-        uint256 length = _attestations.length;
-        for (uint256 i = 0; i < length; ) {
-            AttestationData memory attestation = _attestations[i];
+    // function attest(AttestationData[] calldata _attestations) external {
+    //     uint256 length = _attestations.length;
+    //     for (uint256 i = 0; i < length; ) {
+    //         AttestationData memory attestation = _attestations[i];
 
-            attest(attestation.about, attestation.key, attestation.val, attestation.signature);
+    //         attest(attestation.about, attestation.key, attestation.val, attestation.signature);
 
-            unchecked {
-                ++i;
-            }
-        }
-    }
+    //         unchecked {
+    //             ++i;
+    //         }
+    //     }
+    // }
 }
+
+/*
+put contract address in signature
+make attestation private and read function
+check if array attestation works
+*/
