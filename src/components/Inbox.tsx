@@ -3,6 +3,11 @@ import { useAccount, useSignMessage } from "wagmi";
 import { GetInboxDocuments, DeleteDocument, AddSignature } from "../firebase/crudAttestations";
 import { IAttestation } from "../types";
 import * as ethers from "ethers";
+import { DataGrid, GridRowParams } from "@mui/x-data-grid";
+import { Button, IconButton, Alert } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+
 
 export function Inbox() {
 
@@ -18,6 +23,7 @@ export function Inbox() {
 	}
 
 	async function handleApprove(doc: IAttestation) {
+
 		if(doc.about !== address){
 			alert("You can only approve attestations about yourself")
 			return
@@ -32,12 +38,17 @@ export function Inbox() {
 			message: ethers.utils.arrayify(messageHash),
 		});
 
-    console.log(messageHash)
-
 		await AddSignature(doc.docId, signature);
-		alert("Attestation approved successfully!")
-    window.location.reload();
 
+		alert("Attestation approved successfully!")
+		window.location.reload();
+
+	}
+
+	async function handleDelete(docId: string) {
+		await DeleteDocument(docId);
+		alert("Attestation deleted successfully!")
+		window.location.reload();
 	}
 
 	useEffect(() => {
@@ -46,19 +57,46 @@ export function Inbox() {
 		}
 	}, [address])
 
+	const inboxColumns = [
+		{ field: "creator", headerName: "Creator", width: 500 },
+		{ field: "key", headerName: "Key", width: 200 },
+		{ field: "value", headerName: "Value", width: 500 },
+		{
+			field: "approve",
+			headerName: "",
+			sortable: false,
+			width: 150,
+			renderCell: ({ row }: Partial<GridRowParams>) =>
+				<Button style={{textTransform: 'none'}} variant="outlined" color="success" onClick={() => handleApprove(row)}>
+					<CheckIcon/> &nbsp; Approve
+				</Button>,
+		},
+		{
+			field: "delete",
+			headerName: "",
+			sortable: false,
+			width: 30,
+			renderCell: ({ row }: Partial<GridRowParams>) =>
+			<IconButton aria-label="delete" size="small" onClick={() => handleDelete(row.id)}>
+				<DeleteIcon fontSize="small" />
+			</IconButton>,
+		},
+	];
+
 	return (
 		<div>
 		<h2>Inbox - Approve these attestations about you!</h2>
-		{docs.map((doc) => {
-			return (
-			<div key={doc.docId}>
-				<p>Creator - {doc.creator} :: Key - {doc.key} :: Value - {doc.value} :: Status - {doc.status}</p>
-				<button onClick={() => {
-					handleApprove(doc)
-				}}>Approve</button>
-			</div>
-			)
-		})}
+
+		<div style={{ height: 250, width: '100%' }}>
+			<DataGrid
+				rows={docs.map((doc) => {
+					return {
+						...doc,
+						id: doc.docId
+					}})}
+				columns={inboxColumns}
+			/>
+		</div>
 		</div>
 	);
 }

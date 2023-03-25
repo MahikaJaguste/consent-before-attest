@@ -7,6 +7,11 @@ import { consentualAttestationStationABI } from "../generated";
 import { ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { parseString } from "@eth-optimism/atst";
+import { DataGrid, GridColDef, GridValueGetterParams, GridRowParams } from "@mui/x-data-grid";
+import { Button, IconButton, Alert } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {CircularProgress} from "@mui/material";
 
 const RPC_URL = "http://localhost:8545";
 const CONTRACT_ADDRESS = "0x09635F643e140090A9A8Dcd712eD6285858ceBef";
@@ -48,6 +53,12 @@ export function Outbox() {
 		window.location.reload();
 	}
 
+	async function handleDelete(docId: string) {
+		await DeleteDocument(docId);
+		alert("Attestation deleted successfully!")
+		window.location.reload();
+	}
+
 	// const getAttestationStatus = async (txHash: string) => {
 
 		// const a = await contract.attestations(doc.creator, doc.about, doc.key_bytes)
@@ -63,30 +74,56 @@ export function Outbox() {
 		// return false;
 	// }
 
+	const outboxColumns = [
+		{ field: "about", headerName: "About", width: 500 },
+		{ field: "key", headerName: "Key", width: 200 },
+		{ field: "value", headerName: "Value", width: 500 },
+		{
+			field: "attest",
+			headerName: "",
+			sortable: false,
+			width: 150,
+			renderCell: ({ row }: Partial<GridRowParams>) =>
+			<>
+				<Button style={{textTransform: 'none'}} variant="outlined" color="success" disabled={row.status !== StatusEnum.Signed} onClick={() => handleAttest(row)}>
+					 Attest &nbsp; <CheckCircleIcon/>
+				</Button>
+				{isLoadingDocId === row.docId && <CircularProgress />}
+			</>,
+		},
+		{
+			field: "delete",
+			headerName: "",
+			sortable: false,
+			width: 30,
+			renderCell: ({ row }: Partial<GridRowParams>) =>
+			<IconButton aria-label="delete" size="small" onClick={() => handleDelete(row.id)}>
+				<DeleteIcon fontSize="small" />
+			</IconButton>,
+		},
+	];
+
+
 	useEffect(() => {
 		if(address) {
 			getDocs(address);
 		}
-		// getAttestationStatus("0xb9219af83662bc85023a608b06ecb28b2789fb8b643843dcf9a7bbbc70e50a47")
 	}, [address])
 
 	return (
 		<div>
 		<h2>Outbox - You made these attestations about others!</h2>
-		{docs.map((doc) => {
-			return (
-			<div key={doc.docId}>
-				<p>About - {doc.about} :: Key - {doc.key} :: Value - {doc.value} :: Status - {doc.status}</p>
-				<button
-				disabled={doc.status !== StatusEnum.Signed}
-				onClick={() => {
-					handleAttest(doc)
-				}}
-				>Attest</button>
-				{isLoadingDocId === doc.docId && <p>Attesting...</p>}
-			</div>
-			)
-		})}
+
+		<div style={{ height: 250, width: '100%' }}>
+			<DataGrid
+				rows={docs.map((doc) => {
+					return {
+						...doc,
+						id: doc.docId
+					}})}
+				columns={outboxColumns}
+			/>
+		</div>
 
 		</div>
 	);
