@@ -21,7 +21,6 @@ export function CreateAttestation() {
   const [isLoading, setIsLoading] = useState(false);
 
   const initiateAttestation = async () => {
-    setIsLoading(true);
     if(!address) {
       alert("Please connect your wallet");
       return;
@@ -32,6 +31,7 @@ export function CreateAttestation() {
       return;
     }
 
+    setIsLoading(true);
     const { success, error } = await AddDocument_AutoID(
       address!,
       aboutAddress,
