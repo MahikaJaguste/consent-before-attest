@@ -4,8 +4,6 @@ Say goodbye to defamatory data on-chain and hello to consent and privacy. No one
 
 ## Project Description
 
----
-
 Introducing Consent-Before-Attest: A Solution for Secure and Responsible On-Chain Attestations
 
 In today's digital age, data is the new currency. It's valuable and can be used to build identity and reputation layers on-chain. AttestationStation, rolled out by Optimism, is a powerful library of key-value pairs that can be used to create a secure and trusted identity layer on the blockchain. However, there are some issues with the current approach. The biggest issue is that there is no consent taken from the subject of the attestation. Anyone can put up private or defaming data about someone else without their permission. This leads to a lack of data integrity and privacy concerns.
