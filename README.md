@@ -2,6 +2,34 @@
 
 Say goodbye to defamatory data on-chain and hello to consent and privacy. No one can publish data about you unless you approve it with our attestation signing protocol. Take control of your digital identity today!
 
+## Project Description
+
+---
+
+Introducing Consent-Before-Attest: A Solution for Secure and Responsible On-Chain Attestations
+
+In today's digital age, data is the new currency. It's valuable and can be used to build identity and reputation layers on-chain. AttestationStation, rolled out by Optimism, is a powerful library of key-value pairs that can be used to create a secure and trusted identity layer on the blockchain. However, there are some issues with the current approach. The biggest issue is that there is no consent taken from the subject of the attestation. Anyone can put up private or defaming data about someone else without their permission. This leads to a lack of data integrity and privacy concerns.
+
+Moreover, once data is written on the blockchain, it's there forever. There's no right to be forgotten, and there's no way to erase data once it's written. This poses a challenge for individuals who want to protect their privacy and reputation.
+
+To address these issues, we present Consent-Before-Attest, a solution that enables individuals to securely and responsibly store data on the blockchain. With Consent-Before-Attest, the subject of the attestation must provide their consent before any data is put on-chain. This ensures that only authorised and verified data is stored on the blockchain. This is important because it helps maintain data integrity and privacy.
+
+### So how does Consent-Before-Attest work?
+
+---
+
+Let's say Alice wants to make an attestation about Bob. She must initiate the process by submitting the key-value pair she wants to put on-chain. Bob then views this data and approves it by signing the payload. Alice can then send this signed payload to the smart contract which verifies that Bob's consent has been taken. Now we have successfully made an attestation with a win-win for both parties. Bob is sure that any data about him has to be approved before it goes on-chain. Alice gets the benefit of data integrity because Bob has approved the attestation and the data is being uploaded more responsibly rather than without consent.
+
+Consent-Before-Attest provides a secure and responsible way to store data on the blockchain. It ensures that all data is verified and authorised, providing a high level of data integrity and privacy. Moreover, since only authorised data is stored on-chain, there's no need to worry about defamatory or private data being published without consent. This provides a safer and more secure way to build an identity and reputation layer on the blockchain.
+
+Consent-Before-Attest is built on top of AttestationStation, taking advantage of its powerful features while addressing its limitations. With Consent-Before-Attest, we can unlock the full potential of the blockchain for identity and reputation management, while ensuring the highest standards of data integrity and privacy.
+
+In conclusion, Consent-Before-Attest is a game-changer in the world of on-chain data storage. It provides a responsible and secure way to store data on the blockchain, ensuring that all data is verified and authorised. With Consent-Before-Attest, we can build a more trusted and secure identity layer on the blockchain, enabling new opportunities and unlocking the full potential of this powerful technology.
+
+[ConsentualAttestationStation Contract - Optimism Goerli](https://goerli-optimism.etherscan.io/address/0x6a91e93d407a6116aa6b3bd4a2f0779d615f20a3)
+
+---
+
 <div align="center">
   <br />
   <br />
