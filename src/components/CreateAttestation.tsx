@@ -6,10 +6,9 @@ import {
 } from "@eth-optimism/atst";
 
 import { AddDocument_AutoID } from "../firebase/crudAttestations";
-import { TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import {CircularProgress} from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 
 export function CreateAttestation() {
@@ -23,6 +22,16 @@ export function CreateAttestation() {
 
   const initiateAttestation = async () => {
     setIsLoading(true);
+    if(!address) {
+      alert("Please connect your wallet");
+      return;
+    }
+
+    if(!aboutAddress || !attestKey || !attestValue || aboutAddress === "" || attestKey === "" || attestValue === "") {
+      alert("Please fill all the fields");
+      return;
+    }
+
     const { success, error } = await AddDocument_AutoID(
       address!,
       aboutAddress,
@@ -80,14 +89,14 @@ export function CreateAttestation() {
       />
       <br />
       <br />
+      {isLoading && <span>
+          <LinearProgress color="success"/>
+        </span>
+      }
       <br />
       <Button style={{textTransform: 'none'}} variant="outlined" hidden={isLoading} color="success" onClick={() => initiateAttestation()}>
         <AddCircleOutlineIcon/> &nbsp; Create
 			</Button>
-      {isLoading && <span>
-          <CircularProgress size="small"/>
-        </span>
-      }
       </div>
     </CardContent>
   </Card>

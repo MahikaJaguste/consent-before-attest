@@ -114,4 +114,22 @@ contract ConsentualAttestationStation is Semver {
 
         emit AttestationCreated(msg.sender, _about, _key, _val);
     }
+
+    /**
+     * @notice Allows anyone to create attestations.
+     *
+     * @param _attestations An array of attestation data.
+     */
+    function attest(AttestationData[] calldata _attestations) external {
+        uint256 length = _attestations.length;
+        for (uint256 i = 0; i < length; ) {
+            AttestationData memory attestation = _attestations[i];
+
+            attest(attestation.about, attestation.key, attestation.val, attestation.signature);
+
+            unchecked {
+                ++i;
+            }
+        }
+    }
 }

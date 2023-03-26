@@ -4,10 +4,9 @@ import {
   createKey,
   parseString,
 } from "@eth-optimism/atst";
-import { TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import {CircularProgress} from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 import { RPC_URL, CONTRACT_ADDRESS } from "../types";
 import { ethers } from "ethers";
@@ -25,6 +24,10 @@ export function ReadAttestation() {
 
 
   const readAttestation = async () => {
+    if(!aboutAddress || !attestKey || !creatorAddress || aboutAddress === "" || attestKey === "" || creatorAddress === "") {
+      alert("Please fill all the fields");
+      return;
+    }
     setIsLoading(true);
     let contract: ethers.Contract | undefined;
 		const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -81,12 +84,12 @@ export function ReadAttestation() {
       <Button style={{textTransform: 'none'}} variant="outlined" hidden={isLoading} color="success" onClick={() => readAttestation()}>
         <ImportContactsIcon/> &nbsp; Read
 			</Button>
+      <br />
+      <br />
       {isLoading && <span>
-          <CircularProgress size="small"/>
+          <LinearProgress color="success"/>
         </span>
       }
-      <br />
-      <br />
       <br />
       <div>Attest value: {attestValue}</div>
       </div>

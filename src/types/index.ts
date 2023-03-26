@@ -19,5 +19,6 @@ export interface IAttestation {
 	docId: string;
 }
 
-export const RPC_URL = "http://localhost:8545";
-export const CONTRACT_ADDRESS = "0x09635F643e140090A9A8Dcd712eD6285858ceBef";
+export const RPC_URL =
+	"https://opt-goerli.g.alchemy.com/v2/CINCVJQ2-eybv-8hDPN1TK9dHusFT95u";
+export const CONTRACT_ADDRESS = "0x6A91E93d407a6116Aa6b3bd4A2f0779d615F20A3";

@@ -31,13 +31,13 @@ return (
 	<div style={{textAlign: "center", }}>
 		<Typography ><h1>Consent Before Attest</h1></Typography>
 	</div>
-	<Card sx={{ minWidth: 275, marginLeft: 60, marginRight: 60 }} elevation={0}>
+	<Card sx={isConnected ? { minWidth: 275, marginLeft: 70, marginRight: 60 } : { minWidth: 275, marginLeft: 80, marginRight: 80}} elevation={0}>
     <CardContent>
 		<ConnectButton />
 	</CardContent>
 	</Card>
 
-	{isConnected &&
+
 	<>
 		<br/>
 		<hr/>
@@ -61,7 +61,7 @@ return (
 			<ReadAttestation />
 		</TabPanel>
 	</>
-	}
+
 	</>
 );
 }

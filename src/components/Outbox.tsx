@@ -11,8 +11,8 @@ import { DataGrid, GridColDef, GridValueGetterParams, GridRowParams } from "@mui
 import { Button, IconButton, Alert } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {CircularProgress} from "@mui/material";
 import { RPC_URL, CONTRACT_ADDRESS } from "../types";
+import LinearProgress from "@mui/material/LinearProgress";
 
 export function Outbox() {
 
@@ -43,12 +43,14 @@ export function Outbox() {
 		}
 		if(!contract) return;
 
-		const tx = await contract.attest(doc.about, doc.key_bytes, doc.value_bytes, doc.signature);
+    setIsLoadingDocId(doc.docId);
+		const tx = await contract['attest(address,bytes32,bytes,bytes)'](doc.about, doc.key_bytes, doc.value_bytes, doc.signature);
 		const tx_ = await tx.wait();
+    await AddTxnHash(doc.docId, tx.hash);
+    alert("Attestation sent successfully!")
+    setIsLoadingDocId(undefined);
+    window.location.reload();
 
-		await AddTxnHash(doc.docId, tx.hash);
-		alert("Attestation sent successfully!")
-		window.location.reload();
 	}
 
 	async function handleDelete(docId: string) {
@@ -71,7 +73,6 @@ export function Outbox() {
 				<Button style={{textTransform: 'none'}} variant="outlined" color="success" hidden={isLoadingDocId === row.docId} disabled={row.status !== StatusEnum.Signed} onClick={() => handleAttest(row)}>
 					 Attest &nbsp; <CheckCircleIcon/>
 				</Button>
-				{isLoadingDocId === row.docId && <CircularProgress size="small"/>}
 			</>,
 		},
 		{
@@ -96,7 +97,7 @@ export function Outbox() {
 	return (
 		<div>
 		<h2 style={{textAlign: "center", }}>You made these attestations about others!</h2>
-
+    {isLoadingDocId && <LinearProgress color="success"/>}
 		<div style={{ height: 400, width: '100%' }}>
 			<DataGrid
 				rows={docs.map((doc) => {
